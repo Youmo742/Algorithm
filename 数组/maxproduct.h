@@ -9,19 +9,20 @@ public:
     /*
 给定一个整数数组 nums ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）
 */
-    int maxProduct(vector<int>& nums)
-    {
-        vector<int> v;
-        v.clear();
-
-
-        for(int t=0;t<nums.size();t++)
+        int maxProduct(vector<int>& nums)
+       {
+        int posMax = nums[0];
+        int negMax = nums[0];
+        int ret = nums[0];
+        for(int i=1;i<nums.size();i++)
         {
-            v.push_back(nums[t]);
-            v.push_back(v.back()*nums[t]);
+            int tempPosMax = posMax;
+            int tempNegMax = negMax;
+            posMax = max(nums[i],max(nums[i]*tempPosMax,nums[i]*tempNegMax));
+            negMax = min(nums[i],min(nums[i]*tempPosMax,nums[i]*tempNegMax));
+            ret = max(ret,posMax);
         }
-        sort(v.begin(),v.end());
-        return v.back();
-    }
+        return ret;
+       }
 };
 #endif // MAXPRODUCT_H
